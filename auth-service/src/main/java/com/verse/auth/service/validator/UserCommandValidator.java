@@ -2,9 +2,11 @@ package com.verse.auth.service.validator;
 
 import com.verse.auth.service.annotation.ValidUserCommand;
 import com.verse.auth.service.command.UserCommand;
+import com.verse.auth.service.models.Role;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class UserCommandValidator implements ConstraintValidator<ValidUserCommand, UserCommand> {
@@ -22,12 +24,9 @@ public class UserCommandValidator implements ConstraintValidator<ValidUserComman
         boolean isValid = true;
 
         isValid &= validateUsername(userCommand.getUsername(), context);
-
         isValid &= validateEmail(userCommand.getEmail(), context);
-
         isValid &= validatePassword(userCommand.getPassword(), context);
-
-        isValid &= validateRole(userCommand.getRole(), context);
+        isValid &= validateRoles(userCommand.getRoles(), context); // Updated for Set<Role>
 
         return isValid;
     }
@@ -56,9 +55,9 @@ public class UserCommandValidator implements ConstraintValidator<ValidUserComman
         return true;
     }
 
-    private boolean validateRole(String role, ConstraintValidatorContext context) {
-        if (role == null || role.isEmpty()) {
-            context.buildConstraintViolationWithTemplate("Role must be provided").addConstraintViolation();
+    private boolean validateRoles(Set<Role> roles, ConstraintValidatorContext context) {
+        if (roles == null || roles.isEmpty()) {
+            context.buildConstraintViolationWithTemplate("At least one role must be provided").addConstraintViolation();
             return false;
         }
         return true;

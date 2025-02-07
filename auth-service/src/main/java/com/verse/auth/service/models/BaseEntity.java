@@ -17,10 +17,6 @@ import java.util.UUID;
 @Table
 public abstract class BaseEntity {
 
-    @Id
-    @EqualsAndHashCode.Include
-    private UUID id = UUID.randomUUID();
-
     @Version
     private Integer version;
 
