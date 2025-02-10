@@ -26,7 +26,7 @@ public class UserCommandValidator implements ConstraintValidator<ValidUserComman
         isValid &= validateUsername(userCommand.getUsername(), context);
         isValid &= validateEmail(userCommand.getEmail(), context);
         isValid &= validatePassword(userCommand.getPassword(), context);
-        isValid &= validateRoles(userCommand.getRoles(), context); // Updated for Set<Role>
+        isValid &= validateRoles(userCommand.getRoles(), context);
 
         return isValid;
     }

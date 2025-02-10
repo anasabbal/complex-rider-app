@@ -1,6 +1,5 @@
 package com.verse.auth.service.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.verse.auth.service.validator.DateTimeToStringSerializer;
 import lombok.EqualsAndHashCode;
@@ -10,7 +9,6 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter

@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserEntityService {
         return userRepository.findByEmail(email)
                 .switchIfEmpty(Mono.error(new BusinessException(ExceptionPayloadFactory.USER_NOT_FOUND.get())));
     }
+    @Override
+    public Mono<UserEntity> findById(String userId) {
+        return userRepository.findById(userId)
+                .switchIfEmpty(Mono.error(new BusinessException(ExceptionPayloadFactory.USER_NOT_FOUND.get())));
+    }
 
     @Override
     public Mono<UserEntity> updateUserEnabledStatus(String userId, Boolean enabled) {

@@ -1,8 +1,9 @@
 package com.verse.auth.service.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.verse.auth.service.command.UserCommand;
+import com.verse.auth.service.validator.RoleDeserializer;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
@@ -17,6 +18,8 @@ public class UserEntity extends BaseEntity {
     private String email;
     private String password;
     private Boolean enabled = true;
+
+    @JsonDeserialize(contentUsing = RoleDeserializer.class)
     private Set<Role> roles;
 
     public static UserEntity create(final UserCommand command) {
