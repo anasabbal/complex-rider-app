@@ -10,11 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,25 +27,28 @@ public class UserController {
      * @param userCommand The command object containing user details.
      * @return The created user entity.
      */
-    @PostMapping
-    public Mono<ResponseEntity<UserEntity>> createUser(@RequestBody UserCommand userCommand) {
+    @PostMapping("/register")
+    public Mono<ResponseEntity<UserEntity>> createUser(@RequestBody @Valid UserCommand userCommand) {
+        log.info("Received user command: {}", userCommand);
         return userEntityService.createUser(userCommand)
                 .map(user -> ResponseEntity.status(HttpStatus.CREATED).body(user))
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)));
+                .onErrorResume(e -> {
+                    log.error("Error occurred while creating user", e);
+                    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+                });
     }
-
     /**
-     * Endpoint to update a user's enabled status.
+     * Endpoint to get all users.
      *
-     * @param userId The ID of the user to update.
-     * @param enabled The new enabled status.
-     * @return The updated user entity.
+     * @return The list of all users.
      */
-    @PutMapping("/enabled/{userId}")
-    public Mono<ResponseEntity<UserEntity>> updateUserEnabledStatus(
-            @PathVariable Long userId, @RequestParam Boolean enabled) {
-        return userEntityService.updateUserEnabledStatus(userId, enabled)
-                .map(user -> ResponseEntity.ok(user))
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)));
+    @GetMapping()
+    public Flux<UserEntity> getAllUsers() {
+        log.info("Fetching all users");
+        return userEntityService.getAllUsers()
+                .onErrorResume(e -> {
+                    log.error("Error occurred while fetching users", e);
+                    return Flux.empty();
+                });
     }
 }

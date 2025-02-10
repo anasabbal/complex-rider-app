@@ -1,11 +1,10 @@
 package com.verse.auth.service.repository;
 
-
 import com.verse.auth.service.models.UserEntity;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
-public interface UserRepository extends ReactiveCrudRepository<UserEntity, Long> {
+public interface UserRepository extends ReactiveMongoRepository<UserEntity, String> {
 
     /**
      * Finds a user by their username.

@@ -1,38 +1,22 @@
 package com.verse.auth.service.models;
 
-
-
 import com.verse.auth.service.command.UserCommand;
 import lombok.Data;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
-import java.util.UUID;
-
 
 @Data
-@Table("users")
+@Document("users") // This marks the class as a MongoDB document
 public class UserEntity extends BaseEntity {
 
-    @Id
-    @Column("id")
-    private UUID id;
+    private String id;
 
-    @Column("username")
     private String username;
-
-    @Column("email")
     private String email;
-
-    @Column("password")
     private String password;
-
-    @Column("enabled")
     private Boolean enabled = true;
-
-    @Column("roles")
     private Set<Role> roles;
 
     public static UserEntity create(final UserCommand command) {
@@ -47,9 +31,4 @@ public class UserEntity extends BaseEntity {
     public boolean hasRole(Role role) {
         return roles.contains(role);
     }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
 }
-

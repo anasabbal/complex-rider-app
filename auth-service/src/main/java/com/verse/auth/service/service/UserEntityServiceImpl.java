@@ -1,6 +1,5 @@
 package com.verse.auth.service.service;
 
-
 import com.verse.auth.service.command.UserCommand;
 import com.verse.auth.service.exception.BusinessException;
 import com.verse.auth.service.exception.ExceptionPayloadFactory;
@@ -10,26 +9,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserEntityServiceImpl implements UserEntityService {
 
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Override
     public Mono<UserEntity> createUser(UserCommand userCommand) {
-        return checkIfUsernameExists(
-                userCommand.getUsername())
+        return checkIfUsernameExists(userCommand.getUsername())
                 .then(checkIfEmailExists(userCommand.getEmail())
-                        .then(createAndSaveUser(userCommand))
-                );
+                        .then(createAndSaveUser(userCommand)));
     }
 
     @Override
@@ -45,13 +42,17 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public Mono<UserEntity> updateUserEnabledStatus(Long userId, Boolean enabled) {
+    public Mono<UserEntity> updateUserEnabledStatus(String userId, Boolean enabled) {
         return userRepository.findById(userId)
                 .flatMap(user -> {
                     user.setEnabled(enabled);
                     return userRepository.save(user);
                 })
                 .switchIfEmpty(Mono.error(new BusinessException(ExceptionPayloadFactory.USER_NOT_FOUND.get())));
+    }
+    @Override
+    public Flux<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 
 

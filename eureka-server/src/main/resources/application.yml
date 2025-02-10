@@ -5,16 +5,16 @@ eureka:
   instance:
     hostname: localhost
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false        # Eureka Server should NOT register itself
+    fetch-registry: false              # Eureka Server should not fetch registry (standalone)
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/  # URL for services to register with Eureka
 
 management:
   endpoints:
     web:
       exposure:
-        include:
+        include: ["*"]  # Expose all management endpoints (this includes Prometheus)
   endpoint:
     prometheus:
       enabled: true

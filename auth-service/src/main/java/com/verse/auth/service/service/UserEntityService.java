@@ -1,9 +1,11 @@
 package com.verse.auth.service.service;
 
-
 import com.verse.auth.service.command.UserCommand;
 import com.verse.auth.service.models.UserEntity;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 public interface UserEntityService {
 
@@ -42,5 +44,11 @@ public interface UserEntityService {
      * @param enabled the new enabled status of the user (true to enable, false to disable)
      * @return the updated {@link UserEntity} wrapped in a Mono
      */
-    Mono<UserEntity> updateUserEnabledStatus(Long userId, Boolean enabled);
+    Mono<UserEntity> updateUserEnabledStatus(String userId, Boolean enabled);
+
+    /**
+     * Retrieves all users from the database.
+     * @return a Mono that emits a list of all users.
+     */
+    Flux<UserEntity> getAllUsers();
 }

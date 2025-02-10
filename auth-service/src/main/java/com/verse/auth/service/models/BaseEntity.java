@@ -1,44 +1,44 @@
 package com.verse.auth.service.models;
 
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.verse.auth.service.validator.DateTimeToStringSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.*;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table
+@Document
 public abstract class BaseEntity {
+
+    @Id
+    @EqualsAndHashCode.Include
+    private String id; // Use String as the identifier
 
     @Version
     private Integer version;
 
     @CreatedDate
-    @Column("created_at")
+    @JsonSerialize(using = DateTimeToStringSerializer.class)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column("created_by")
     private String createdBy;
 
     @LastModifiedDate
-    @Column("updated_at")
+    @JsonSerialize(using = DateTimeToStringSerializer.class)
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
-    @Column("updated_by")
     private String updatedBy;
 
-    @Column("deleted")
     private Boolean deleted = false;
-
-    @Column("active")
     private Boolean active = true;
 }
