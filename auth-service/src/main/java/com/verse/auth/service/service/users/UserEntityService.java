@@ -1,11 +1,17 @@
 package com.verse.auth.service.service.users;
 
-import com.verse.auth.service.command.UserCommand;
 import com.verse.auth.service.models.UserEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface UserEntityService {
+    /**
+     * Finds a user by their ID.
+     *
+     * @param userId the ID of the user to be found.
+     * @return a Mono containing the found user entity, or empty if not found.
+     */
+    Mono<UserEntity> findById(String userId);
 
     /**
      * Finds a user by their username.

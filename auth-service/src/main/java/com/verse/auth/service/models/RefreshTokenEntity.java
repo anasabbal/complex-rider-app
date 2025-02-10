@@ -1,8 +1,8 @@
 package com.verse.auth.service.models;
 
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
