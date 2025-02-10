@@ -29,12 +29,11 @@ public class AuthServiceImpl implements AuthService {
     public Mono<String> createUser(UserCommand userCommand) {
         log.info("Creating user with username: {}", userCommand.getUsername());
 
-        // Check if username or email already exists
         return checkIfUsernameExists(userCommand.getUsername())
                 .then(checkIfEmailExists(userCommand.getEmail())
                         .then(createAndSaveUser(userCommand)
                                 .doOnSuccess(savedUser -> log.info("User created with username: {}", savedUser.getUsername()))
-                                .thenReturn("User successfully created"))); // Return success message
+                                .thenReturn("User successfully created")));
     }
 
     @Override

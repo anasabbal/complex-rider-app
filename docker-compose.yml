@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Eureka server service
+  eureka-server:
+    build:
+      context: ./eureka-server  # Specify the context to the eureka-server directory
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+    environment:
+      - SPRING_APPLICATION_NAME=eureka-server
+    restart: always
+
+  # Auth service service
+  auth-service:
+    build:
+      context: ./auth-service  # Specify the context to the eureka-server directory
+      dockerfile: Dockerfile  # Make sure the file name matches your actual Dockerfile for Auth Service
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    environment:
+      - SPRING_APPLICATION_NAME=auth-service
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://universe123:zadian123@cluster0.irfp6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - SPRING_DATA_MONGODB_DATABASE=authdb
+    depends_on:
+      - eureka-server
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
