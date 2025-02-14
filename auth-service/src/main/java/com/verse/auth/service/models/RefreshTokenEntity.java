@@ -11,7 +11,7 @@ import java.time.Instant;
 public class RefreshTokenEntity extends BaseEntity {
 
     @Id
-    private String id;  // Use String as the identifier for MongoDB
+    private String id;
 
     private String userId;
     private String token;

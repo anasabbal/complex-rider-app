@@ -57,6 +57,6 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -1; // Run early in the filter chain
+        return -1;
     }
 }

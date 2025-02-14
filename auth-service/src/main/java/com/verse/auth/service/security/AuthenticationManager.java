@@ -1,7 +1,7 @@
 package com.verse.auth.service.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.verse.auth.service.models.UserEntity;
+import com.verse.auth.service.models.UserCredentials;
 import com.verse.auth.service.service.token.JwtService;
 import com.verse.auth.service.service.users.UserEntityService;
 import lombok.AllArgsConstructor;
@@ -46,9 +46,9 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
                 });
     }
 
-    private Collection<SimpleGrantedAuthority> getGrantedAuthorities(UserEntity userEntity) {
+    private Collection<SimpleGrantedAuthority> getGrantedAuthorities(UserCredentials userCredentials) {
         // Fetch roles from the user entity and assign them as granted authorities
-        return userEntity.getRoles().stream()
+        return userCredentials.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
                 .toList();
     }

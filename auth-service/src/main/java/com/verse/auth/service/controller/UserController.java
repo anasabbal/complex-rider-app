@@ -1,6 +1,6 @@
 package com.verse.auth.service.controller;
 
-import com.verse.auth.service.models.UserEntity;
+import com.verse.auth.service.models.UserCredentials;
 import com.verse.auth.service.service.users.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class UserController {
      * @return The list of all users.
      */
     @GetMapping()
-    public Flux<UserEntity> getAllUsers() {
+    public Flux<UserCredentials> getAllUsers() {
         log.info("Fetching all users");
         return userEntityService.getAllUsers()
                 .onErrorResume(e -> {
@@ -39,7 +39,7 @@ public class UserController {
      * @return the found user.
      */
     @GetMapping("/username/{username}")
-    public Mono<UserEntity> findByUsername(@PathVariable String username) {
+    public Mono<UserCredentials> findByUsername(@PathVariable String username) {
         log.info("Fetching user by username: {}", username);
         return userEntityService.findByUsername(username)
                 .onErrorResume(e -> {
@@ -55,7 +55,7 @@ public class UserController {
      * @return the found user.
      */
     @GetMapping("/email/{email}")
-    public Mono<UserEntity> findByEmail(@PathVariable String email) {
+    public Mono<UserCredentials> findByEmail(@PathVariable String email) {
         log.info("Fetching user by email: {}", email);
         return userEntityService.findByEmail(email)
                 .onErrorResume(e -> {
@@ -72,7 +72,7 @@ public class UserController {
      * @return the updated user.
      */
     @PutMapping("/{userId}/enabled/{enabled}")
-    public Mono<UserEntity> updateUserEnabledStatus(@PathVariable String userId, @PathVariable Boolean enabled) {
+    public Mono<UserCredentials> updateUserEnabledStatus(@PathVariable String userId, @PathVariable Boolean enabled) {
         log.info("Updating user enabled status for userId: {} to {}", userId, enabled);
         return userEntityService.updateUserEnabledStatus(userId, enabled)
                 .onErrorResume(e -> {
