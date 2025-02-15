@@ -1,21 +1,45 @@
+server:
+  port: 8081
+
 spring:
   application:
-    name: API-GATEWAY
+    name: api-gateway
   cloud:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://auth-service
+          uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/auth/register
-          filters:
-            - StripPrefix=1
-
+            - Path=/auth/**
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user/**
+      default-filters:
+        - TokenRelay
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/.well-known/jwks.json
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 10
+    initial-instance-info-replication-interval-seconds: 10
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
-server:
-  port: 8081
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+      - url: /auth/v3/api-docs
+        name: Auth Service
+      - url: /user/v3/api-docs
+        name: User Service

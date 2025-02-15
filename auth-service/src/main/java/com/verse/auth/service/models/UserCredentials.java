@@ -9,11 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Data
-@Document("users") // This marks the class as a MongoDB document
-public class UserEntity extends BaseEntity {
+@Document("users")
+public class UserCredentials extends BaseEntity {
 
     private String id;
-
     private String username;
     private String email;
     private String password;
@@ -22,8 +21,8 @@ public class UserEntity extends BaseEntity {
     @JsonDeserialize(contentUsing = RoleDeserializer.class)
     private Set<Role> roles;
 
-    public static UserEntity create(final UserCommand command) {
-        UserEntity entity = new UserEntity();
+    public static UserCredentials create(final UserCommand command) {
+        UserCredentials entity = new UserCredentials();
         entity.setUsername(command.getUsername());
         entity.setEmail(command.getEmail());
         entity.setPassword(command.getPassword());

@@ -12,15 +12,16 @@
         <module>eureka-server</module>
         <module>auth-service</module>
         <module>gateway</module>
+        <module>user-service</module>
     </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.maven.plugin.version>3.0.2</spring.boot.maven.plugin.version>
-        <spring.boot.dependencies.version>3.2.6</spring.boot.dependencies.version>
-        <spring.cloud-version>2023.0.0</spring.cloud-version>
+        <spring.boot.maven.plugin.version>3.4.2</spring.boot.maven.plugin.version>
+        <spring.boot.dependencies.version>3.4.2</spring.boot.dependencies.version>
+        <spring.cloud.version>2024.0.0</spring.cloud.version>
         <mockito.version>3.8.0</mockito.version>
         <axon.version>4.7.2</axon.version>
         <jpamodelgen.version>6.1.7.Final</jpamodelgen.version>
@@ -39,12 +40,13 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud-version}</version>
+                <version>${spring.cloud.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <dependencies>
         <dependency>
