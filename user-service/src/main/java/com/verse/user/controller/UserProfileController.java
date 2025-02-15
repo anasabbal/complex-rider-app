@@ -2,6 +2,8 @@ package com.verse.user.controller;
 
 
 import com.verse.user.command.UserProfileCommand;
+import com.verse.user.dto.UserProfileDto;
+import com.verse.user.mapper.UserProfileMapper;
 import com.verse.user.models.UserProfile;
 import com.verse.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class UserProfileController {
 
 
     private final UserProfileService userProfileService;
+    private final UserProfileMapper userProfileMapper;
 
     /**
      * Retrieves a user profile by its unique identifier.
@@ -26,8 +29,9 @@ public class UserProfileController {
      * @return a {@link Mono} containing the user profile, or an empty {@link Mono} if not found.
      */
     @GetMapping("/{id}")
-    public Mono<UserProfile> getUserProfileById(@PathVariable String id) {
-        return userProfileService.getUserProfileById(id);
+    public Mono<UserProfileDto> getUserProfileById(String id) {
+        final Mono<UserProfile> userProfileMono = userProfileService.getUserProfileById(id);
+        return userProfileMono.map(UserProfileDto::toUserProfileDto);
     }
 
     /**
